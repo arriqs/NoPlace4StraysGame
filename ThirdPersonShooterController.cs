@@ -12,6 +12,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private float aimSensitivity;
 	[SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
 	[SerializeField] private Transform debugTransform;
+	[SerializeField] private Transform pfLavaSpellProjectile;
+	[SerializeField] private Transform spawnSpellPosition;
 	
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
@@ -53,5 +55,12 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetSensitivity(normalSensitivity);
 			thirdPersonController.SetRotateOnMove(true);
         }
+
+		if (starterAssetsInputs.cast)
+		{
+			Vector3 aimDir = (mouseWorldPosition - spawnSpellPosition.position).normalized;
+			Instantiate(pfLavaSpellProjectile, spawnSpellPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+			starterAssetsInputs.cast = false;
+		}
     }
 }
